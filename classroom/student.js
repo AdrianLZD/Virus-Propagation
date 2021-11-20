@@ -17,6 +17,7 @@ export function Student(name = '', prevState = 'S', currState = 'S', vaccine = n
     this.vaccine = vaccine;
     this.faceMask = faceMask;
     this.transitionMatrix = transitionMatrix;
+    // Maybe add an image to help guide the UI?
 }
 
 
