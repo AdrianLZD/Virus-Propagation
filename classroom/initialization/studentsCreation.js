@@ -14,18 +14,18 @@ const VACCINES_PROB = {
 const ONE_DOSIS_VACS = new Set(['Johnson & Johnson', 'Cansino/Sinovac']);
 
 const DOSIS_PROB = {
-    0 : 0.4208,
-    1 : 0.0928,
-    2 : 0.4864 
+    0: 0.4208,
+    1: 0.0928,
+    2: 0.4864
 }
 
 const MASK_PROB = {
-    'noMask' : 0.1500,
-    'clothThin' : 0.1252,
-    'clothThick' : 0.2879,
-    'surgical' : 0.2758,
-    'filter' : 0.0765,
-    'N95' : 0.0846
+    'noMask': 0.1500,
+    'clothThin': 0.1252,
+    'clothThick': 0.2879,
+    'surgical': 0.2758,
+    'filter': 0.0765,
+    'N95': 0.0846
 }
 // Probabilities over a 100%
 // cloththick 0.3388
@@ -34,7 +34,7 @@ const MASK_PROB = {
 // filter 0.0899
 // n95 0.0995
 
-function defineVaccine(){
+function defineVaccine() {
     let vaccine = new Vaccine();
 
     const ran1 = Math.random();
@@ -61,7 +61,7 @@ function defineVaccine(){
         }
         vaccine.type = vaccineType;
 
-        if (ONE_DOSIS_VACS.has(vaccine.type)){
+        if (ONE_DOSIS_VACS.has(vaccine.type)) {
             vaccine.dosis = 1;
         }
     }
@@ -69,7 +69,7 @@ function defineVaccine(){
     return vaccine;
 }
 
-function defineMask(){
+function defineMask() {
     const ran = Math.random();
     const MASK_TYPES = Object.keys(MASK_PROB);
 
@@ -81,7 +81,7 @@ function defineMask(){
         maskType = MASK_TYPES[index];
         counter += MASK_PROB[maskType];
     }
-    
+
     return maskType;
 }
 

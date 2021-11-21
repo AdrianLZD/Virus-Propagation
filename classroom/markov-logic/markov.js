@@ -43,13 +43,7 @@ const RISK_MULTIPLIERS = {
     }
 }
 
-const STATE_INDEXES = {
-    S: 0,
-    I: 1,
-    EA: 2,
-    ES: 3,
-}
-
+const STATE_INDEXES = { S: 0, I: 1, EA: 2, ES: 3, };
 const INDEXED_STATES = ['S', 'I', 'EA', 'ES'];
 
 /**

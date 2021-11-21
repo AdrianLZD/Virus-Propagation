@@ -28,7 +28,8 @@ export function createClassroom(infected = 1) {
     return students;
 }
 
-let original = createClassroom(15);
+// Tests
+let original = createClassroom(1);
 let newDay = _.cloneDeep(original)
 for(let i=0; i<50; i++) {
     console.log(`Day ${i+1}:`);
