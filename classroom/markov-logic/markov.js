@@ -43,19 +43,21 @@ const RISK_MULTIPLIERS = {
     }
 }
 
-const STATE_INDEX = {
+const STATE_INDEXES = {
     S: 0,
     I: 1,
     EA: 2,
     ES: 3,
 }
 
+const INDEXED_STATES = ['S', 'I', 'EA', 'ES'];
+
 /**
  * @param {Student[][]} classroom
- * @returns {Student[][]} Updated classroom (new states and transitionMatrices)
+ * @returns {Student[][]}
  */
-export function dailyUpdate(classroom) {
-    const updatedClassroom = classroom.map((classroomRow, i) => {
+export function calculateMatrix(classroom) {
+    return classroom.map((classroomRow, i) => {
         return classroomRow.map((student, j) => {
             if (student.currState == 'S') {
                 let updatedMatrix = calculateMatrixProb(i, j, classroom)
@@ -64,7 +66,6 @@ export function dailyUpdate(classroom) {
             return student;
         });
     });
-    return _.shuffle(updatedClassroom);
 }
 
 /**
@@ -106,4 +107,36 @@ function calculateMatrixProb(i, j, classroom) {
 
 function validIndex(i, j, m, n) {
     return i >= 0 && i < m && j >= 0 && j < n;
+}
+
+/**
+ * @param {Student[][]} classroom
+ * @returns {Student[][]}
+ */
+export function applyTransitions(classroom) {
+    return classroom.map((classroomRow) => {
+        return classroomRow.map((student) => {
+            let newState = getNewState(student);
+            return { ...student, prevState: student.currState, currState: newState };
+        });
+    });
+}
+
+/**
+ * 
+ * @param {Student} student 
+ */
+function getNewState(student) {
+    let currIndex = STATE_INDEXES[student.currState];
+    let rand = Math.random();
+    let newState = '-';
+    for (let [idx, stateProb] of student.transitionMatrix[currIndex].entries()) {
+        rand -= stateProb;
+        if (rand < 0) {
+            newState = INDEXED_STATES[idx];
+            if (newState != student.currState) console.log(`${student.name} changed state from ${student.currState} to ${newState}.`);
+            break;
+        }
+    }
+    return newState;
 }

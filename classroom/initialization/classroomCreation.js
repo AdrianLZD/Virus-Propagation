@@ -1,5 +1,6 @@
+import _ from "lodash";
 import { createStudents } from "./studentsCreation.js";
-import { dailyUpdate } from "../markov-logic/dailyUpdate.js";
+import { applyTransitions, calculateMatrix } from "../markov-logic/markov.js";
 
 export function isClassroomVentilated(){
     return (Date.now() % 2 == 0) // 50 - 50 percentage chance
@@ -14,6 +15,8 @@ export function createClassroom(infected = 1) {
     for(let i = 0; i < students.length; i++){
         for(let j = 0; j < students[0].length; j++){
             students[i][j].currState = 'I';
+            students[i][j].transitionMatrix[0][0] = 0.0000;
+            students[i][j].transitionMatrix[0][1] = 1.0000;
             totalInfected++;
             if(totalInfected >= infected)
                 break;
@@ -25,9 +28,12 @@ export function createClassroom(infected = 1) {
     return students;
 }
 
-let original = createClassroom(1);
-// console.log(JSON.stringify(original));
-let day1 = dailyUpdate(original);
-console.log(JSON.stringify(day1));
-// let day2 = dailyUpdate(day1);
-// console.log(JSON.stringify(day2));
+let original = createClassroom(15);
+let newDay = _.cloneDeep(original)
+for(let i=0; i<50; i++) {
+    console.log(`Day ${i+1}:`);
+    let dayWithTransitions = calculateMatrix(newDay);
+    let dayWithNewStates = applyTransitions(dayWithTransitions);
+    newDay = _.shuffle(_.cloneDeep(dayWithNewStates));
+    console.log(`\n`);
+}
