@@ -1,5 +1,5 @@
 import { createStudents } from "./studentsCreation.js";
-
+import { dailyUpdate } from "../markov-logic/dailyUpdate.js";
 
 export function isClassroomVentilated(){
     return (Date.now() % 2 == 0) // 50 - 50 percentage chance
@@ -25,4 +25,9 @@ export function createClassroom(infected = 1) {
     return students;
 }
 
-console.log(createClassroom(1));
+let original = createClassroom(1);
+// console.log(JSON.stringify(original));
+let day1 = dailyUpdate(original);
+console.log(JSON.stringify(day1));
+// let day2 = dailyUpdate(day1);
+// console.log(JSON.stringify(day2));
