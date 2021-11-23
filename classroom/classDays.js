@@ -3,7 +3,8 @@ import _ from "lodash";
 import createClassroom from "./classroomCreation.js";
 
 let daysPassing = 0;
-let firstDay = createClassroom(1);
+let studentsInfected = 1;
+let firstDay = createClassroom(studentsInfected);
 let nextDay = _.cloneDeep(firstDay)
 var interval = setInterval(actualization,3000);
 
