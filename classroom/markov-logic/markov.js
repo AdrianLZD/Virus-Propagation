@@ -36,10 +36,6 @@ const RISK_MULTIPLIERS = {
         'surgical': (1 / 2),
         'filter': (1 / 2),
         'N95': (1 / 3)
-    },
-    ventilation: {
-        'none': 1,
-        'oneOutlet': (1 / 4)
     }
 }
 
@@ -48,13 +44,14 @@ const INDEXED_STATES = ['S', 'I', 'EA', 'ES'];
 
 /**
  * @param {Student[][]} classroom
+ * @param {Boolean} isVentilated
  * @returns {Student[][]}
  */
-export function calculateMatrix(classroom) {
+export function calculateMatrix(classroom, isVentilated) {
     return classroom.map((classroomRow, i) => {
         return classroomRow.map((student, j) => {
             if (student.currState == 'S') {
-                let updatedMatrix = calculateMatrixProb(i, j, classroom)
+                let updatedMatrix = calculateMatrixProb(i, j, classroom, isVentilated)
                 return { ...student, transitionMatrix: updatedMatrix };
             }
             return student;
@@ -66,10 +63,11 @@ export function calculateMatrix(classroom) {
  * 
  * @param {Number} i 
  * @param {Number} j 
- * @param {Student[][]} classroom 
+ * @param {Student[][]} classroom
+ * @param {Boolean} isVentilated 
  * @returns 
  */
-function calculateMatrixProb(i, j, classroom) {
+function calculateMatrixProb(i, j, classroom, isVentilated) {
     const [m, n] = [classroom.length, classroom[0].length];
     const neighborPositions = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
 
@@ -86,7 +84,7 @@ function calculateMatrixProb(i, j, classroom) {
         infectedProb * (
             RISK_MULTIPLIERS.faceMask[classroom[i][j].faceMask]
             * RISK_MULTIPLIERS.vaccine[classroom[i][j].vaccine.type][classroom[i][j].vaccine.dosis]
-            * RISK_MULTIPLIERS.ventilation['none']
+            * (isVentilated ? 0.25 : 1)
         ),
         2
     );
