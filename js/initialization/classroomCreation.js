@@ -6,11 +6,12 @@ export function isClassroomVentilated() {
     return (Date.now() % 2 == 0) // 50 - 50 percentage chance
 }
 
-export function createClassroom(infected = 1) {
-    let students = createStudents();
+export function createClassroom(infected = 1, rows=4, cols=4) {
+    let students = createStudents(rows, cols);
+    console.log("infected ", infected, students.length * students[0].length);
     let totalInfected = 0;
-    if (infected > students.length * students[0].length)
-        throw RangeError("Number of infected should not be higher than " + (students.length * students[0].length))
+    // if (infected > students.length * students[0].length)
+    //     throw RangeError("Number of infected should not be higher than " + (students.length * students[0].length))
 
     for (let i = 0; i < students.length; i++) {
         for (let j = 0; j < students[0].length; j++) {

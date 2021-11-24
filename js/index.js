@@ -51,10 +51,7 @@ function createClassroomTable(tableID, classroom) {
 			};
 
 			studentCell.update = function (classroom) {
-				studentCell.value =
-					classroom[row][col].currState +
-					"    |   " +
-					classroom[row][col].name;
+				studentCell.value = classroom[row][col].name;
 				let student = classroom[row][col];
 
 				studentCell.className = `classroom-cell ${student.currState}`;
@@ -106,12 +103,39 @@ function main() {
 	const DEFAULT_ROWS = 5;
 	const DEFAULT_COLS = 5;
 
-	let isVentilated = true; // TODO REMOVE HARCODED isClassroomVentilated();
+    var sliderRows = document.getElementById("slider-rows");
+    var sliderCols = document.getElementById("slider-cols");
+    var sliderInfected = document.getElementById("slider-infected");
+    var sliderSpeed = document.getElementById("slider-speed");
 
-	let classroom = createClassroom(3);
-	createClassroomTable(TABLE_ID, classroom);
+    let currentDay = null;
+    let isVentilated = false;
 
-	let currentDay = _.cloneDeep(classroom);
+
+    let btnCreateClassroom = document.getElementById("btn-create-classroom");
+    btnCreateClassroom.onclick = () => {
+        const rows = sliderRows.value;
+        const cols = sliderCols.value;
+        const infected = sliderInfected.value;
+
+        console.log("rows", rows, "cols", cols, "infected", infected);
+        console.log("debuggg");
+
+        if (infected > rows * cols) {
+            alert("You can not have more infected students than students");
+            return;
+        }
+        isVentilated = true;
+
+        // let classroom = createClassroom(3);
+        let classroom = createClassroom(infected, rows, cols);
+
+        createClassroomTable(TABLE_ID, classroom);
+    
+        currentDay = _.cloneDeep(classroom);
+
+        console.log(classroom);
+    }
 
 	let btnNextDay = document.getElementById("btn-next-day");
 	btnNextDay.onclick = function () {
@@ -122,7 +146,11 @@ function main() {
 	let btnPlayPause = document.getElementById("btn-play-pause");
 	var interval = null;
 
+
+
 	btnPlayPause.onclick = function () {
+        const playSpeed = 3000 / sliderSpeed.value;
+
 		if (playing) {
 			this.textContent = "Play";
 			clearInterval(interval);
@@ -130,7 +158,7 @@ function main() {
 			this.textContent = "Pause";
 			interval = setInterval(
 				() => update(currentDay, isVentilated, TABLE_ID),
-				1000
+				playSpeed
 			);
 		}
 
@@ -159,6 +187,18 @@ function main() {
 			body.style.overflow = "visible";
 		}
 	};
+
+
+
+    sliderRows.oninput = (event) => {
+        // update number of rows
+        sliderRows.parentNode.style.setProperty('--value',sliderRows.value); 
+        sliderRows.parentNode.style.setProperty('--text-value', JSON.stringify(sliderRows.value));
+
+
+    }
+
 }
 
 main();
+

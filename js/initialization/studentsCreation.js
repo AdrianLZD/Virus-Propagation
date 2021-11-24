@@ -96,13 +96,16 @@ function createStudent() {
     return student;
 }
 
-export function createStudents() {
-    let studentsMatrix = [
-        [null, null, null, null],
-        [null, null, null, null],
-        [null, null, null, null],
-        [null, null, null, null]
-    ];
+export function createStudents(rows=4, cols=4) {
+    let studentsMatrix = [];
+    for (let i=0; i<rows; i++) {
+        let row = [];
+        for (let j=0; j<cols; j++) {
+            row.push(null);
+        }
+        studentsMatrix.push(row);
+    }
+    
 
     for (let i = 0; i < studentsMatrix.length; i++) {
         for (let j = 0; j < studentsMatrix[0].length; j++) {
