@@ -33,6 +33,7 @@ function createClassroomTable(tableID, classroom) {
 				body.style.position = "static";
 				body.style.height = "100%";
 				body.style.overflow = "hidden";
+                
 
 				document.querySelector(
 					"#m-student-name"
@@ -50,12 +51,36 @@ function createClassroomTable(tableID, classroom) {
                 createTransitionMatrixTable(student.transitionMatrix);
 			};
 
-			studentCell.update = function (classroom) {
+			studentCell.update = function (classroom) {                
 				studentCell.value = classroom[row][col].name;
 				let student = classroom[row][col];
 
 				studentCell.className = `classroom-cell ${student.currState}`;
 				studentCell.text.nodeValue = studentCell.value;
+
+                studentCell.onclick = function () {
+                    modal.style.display = "block";
+                    body.style.position = "static";
+                    body.style.height = "100%";
+                    body.style.overflow = "hidden";
+                    
+    
+                    document.querySelector(
+                        "#m-student-name"
+                    ).innerHTML = `${student.name}`;
+                    document.querySelector(
+                        "#m-student-info"
+                    ).innerHTML = ` <span> <strong> Previous state: </strong> ${student.prevState} </span> 
+                                    <span> <strong> Current state: </strong> ${student.currState} </span> 
+                                    <span> <strong> Vaccine: </strong> ${student.vaccine.type} </span>
+                                    <span> <strong> Dosis: </strong> ${student.vaccine.dosis} </span>
+                                    <span> <strong> Face mask: </strong> ${student.faceMask} </span>
+                                    <span> <strong> Transition matrix: </strong> </span>
+                                    <table id="transition-matrix-table"> </table>
+                                `;
+                    createTransitionMatrixTable(student.transitionMatrix);
+                };
+                
 			};
 		}
 	}

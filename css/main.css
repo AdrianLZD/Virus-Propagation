@@ -23,6 +23,10 @@ html, body {
 
 }
 
+#transition-matrix-table {
+	border: 1px solid black;
+
+}
 
 #classroom-table {
 	width: 100%;
