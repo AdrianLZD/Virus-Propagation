@@ -11,30 +11,58 @@ function createClassroomTable(tableID, classroom) {
 	let nrows = classroom.length;
 	let ncols = nrows > 0 ? classroom[0].length : 0;
 
+	var modal = document.getElementById("tvesModal");
+	var body = document.getElementsByTagName("body")[0];
+
 	for (let row = 0; row < nrows; row++) {
 		let newRow = tableRef.insertRow();
 		newRow.className = "classroom-row";
 
 		for (let col = 0; col < ncols; col++) {
 			let studentCell = newRow.insertCell(col);
-            let student = classroom[row][col];
+			let student = classroom[row][col];
 
 			studentCell.className = `classroom-cell ${student.currState}`;
 
-			studentCell.value =
-				classroom[row][col].currState +
-				"    |   " +
-				classroom[row][col].name;
 			// Append a text node to the cell
-			studentCell.text = document.createTextNode(studentCell.value);
+			studentCell.text = document.createTextNode(student.name);
 			studentCell.appendChild(studentCell.text);
+
 			studentCell.onclick = function () {
-				alert("Cell clicked: " + studentCell.className);
+				modal.style.display = "block";
+				body.style.position = "static";
+				body.style.height = "100%";
+				body.style.overflow = "hidden";
+
+				document.querySelector(
+					"#m-student-name"
+				).innerHTML = `${student.name}`;
+				document.querySelector(
+					"#m-student-info"
+				).innerHTML = ` <span> <strong> Previous state: </strong> ${student.prevState} </span> 
+                                <span> <strong> Current state: </strong> ${student.currState} </span> 
+                                <span> <strong> Vaccine: </strong> ${student.vaccine.type} </span>
+                                <span> <strong> Dosis: </strong> ${student.vaccine.dosis} </span>
+                                <span> <strong> Face mask: </strong> ${student.faceMask} </span>
+                                <span> <strong> Transition matrix: </strong> </span>
+                                <table id="transition-matrix-table"> </table>
+                            `;
+                createTransitionMatrixTable(student.transitionMatrix);
+			};
+
+			studentCell.update = function (classroom) {
+				studentCell.value =
+					classroom[row][col].currState +
+					"    |   " +
+					classroom[row][col].name;
+				let student = classroom[row][col];
+
+				studentCell.className = `classroom-cell ${student.currState}`;
+				studentCell.text.nodeValue = studentCell.value;
 			};
 		}
 	}
 }
-
 
 function updateClassroomTable(tableID, classroom) {
 	// Get a reference to the table
@@ -45,21 +73,30 @@ function updateClassroomTable(tableID, classroom) {
 	for (let row = 0; row < nrows; row++) {
 		for (let col = 0; col < ncols; col++) {
 			let studentCell = tableRef.rows[row].cells[col];
-            let student = classroom[row][col];
-
-            studentCell.className = `classroom-cell ${student.currState}`;
-
-			studentCell.value =
-				classroom[row][col].currState +
-				"    |   " +
-				classroom[row][col].name;
-			studentCell.text.nodeValue = studentCell.value;
+			studentCell.update(classroom);
 		}
 	}
 }
 
+function createTransitionMatrixTable(transitionMatrix) {
+    let tableRef = document.getElementById("transition-matrix-table");
+    let nrows = transitionMatrix.length;
+    let ncols = nrows > 0 ? transitionMatrix[0].length : 0;
+
+
+	for (let row = 0; row < nrows; row++) {
+		let newRow = tableRef.insertRow();
+		newRow.className = "";
+		for (let col = 0; col < ncols; col++) {
+			let cell = newRow.insertCell(col);
+            cell.text = document.createTextNode(transitionMatrix[row][col]);
+			cell.appendChild(cell.text);
+        }
+    }
+}
+
 function update(currentDay, isVentilated, TABLE_ID) {
-    console.log("update");
+	console.log("update");
 	currentDay = getNewDay(currentDay, isVentilated);
 	updateClassroomTable(TABLE_ID, currentDay);
 }
@@ -83,22 +120,44 @@ function main() {
 
 	let playing = false;
 	let btnPlayPause = document.getElementById("btn-play-pause");
-    var interval = null;
+	var interval = null;
 
 	btnPlayPause.onclick = function () {
 		if (playing) {
 			this.textContent = "Play";
-            clearInterval(interval);
+			clearInterval(interval);
 		} else {
 			this.textContent = "Pause";
-            interval = setInterval(
-                () => update(currentDay, isVentilated, TABLE_ID),
-                1000
-            );
+			interval = setInterval(
+				() => update(currentDay, isVentilated, TABLE_ID),
+				1000
+			);
 		}
 
 		playing = !playing;
 		console.log("Play/Pause");
+	};
+
+	var modal = document.getElementById("tvesModal");
+	var span = document.getElementsByClassName("close")[0];
+	var body = document.getElementsByTagName("body")[0];
+
+	span.onclick = function () {
+		modal.style.display = "none";
+
+		body.style.position = "inherit";
+		body.style.height = "auto";
+		body.style.overflow = "visible";
+	};
+
+	window.onclick = function (event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+
+			body.style.position = "inherit";
+			body.style.height = "auto";
+			body.style.overflow = "visible";
+		}
 	};
 }
 
