@@ -1,4 +1,4 @@
-import _ from 'lodash';
+// import _ from "../libs/lodash.js";
 
 const RISK_MULTIPLIERS = {
     vaccine: {

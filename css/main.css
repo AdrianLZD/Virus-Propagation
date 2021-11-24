@@ -14,3 +14,21 @@
 	cursor: pointer;
     padding: 5%;
 }
+
+.S {
+	background-color: green;
+}
+
+.I {
+	background-color: red;
+}
+
+.ES {
+	background-color: yellow;
+}
+
+.EA {
+	background-color: orange;
+}
+
+

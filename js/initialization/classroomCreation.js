@@ -1,4 +1,4 @@
-import _ from "lodash";
+// import _ from "../libs/lodash.js";
 import { createStudents } from "./studentsCreation.js";
 import { applyTransitions, calculateMatrix } from "../markov-logic/markov.js";
 
@@ -29,14 +29,21 @@ export function createClassroom(infected = 1) {
     return students;
 }
 
-// Tests
-let isVentilated = isClassroomVentilated();
-let original = createClassroom(1);
-let newDay = _.cloneDeep(original)
-for (let i = 0; i < 50; i++) {
-    console.log(`Day ${i + 1}:`);
-    let dayWithTransitions = calculateMatrix(newDay, isVentilated);
+export function getNewDay(currentDay, isVentilated) {
+    let dayWithTransitions = calculateMatrix(currentDay, isVentilated);
     let dayWithNewStates = applyTransitions(dayWithTransitions);
-    newDay = _.shuffle(_.cloneDeep(dayWithNewStates));
-    console.log(`\n`);
+    let newDay = _.shuffle(_.cloneDeep(dayWithNewStates));;
+    return newDay;
 }
+
+// // Tests
+// let isVentilated = isClassroomVentilated();
+// let original = createClassroom(1);
+// let newDay = _.cloneDeep(original)
+// for (let i = 0; i < 50; i++) {
+//     console.log(`Day ${i + 1}:`);
+//     let dayWithTransitions = calculateMatrix(newDay, isVentilated);
+//     let dayWithNewStates = applyTransitions(dayWithTransitions);
+//     newDay = _.shuffle(_.cloneDeep(dayWithNewStates));
+//     console.log(`\n`);
+// }
