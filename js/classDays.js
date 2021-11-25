@@ -1,5 +1,5 @@
 import { applyTransitions, calculateMatrix } from "../markov-logic/markov.js";
-import _ from "lodash";
+// import _ from "./libs/lodash.js";
 import createClassroom from "./classroomCreation.js";
 
 let daysPassing = 0;

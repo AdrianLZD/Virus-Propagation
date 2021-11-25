@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>VIRUS PROPAGATION</title>
+	</head>
+
+	<link rel="stylesheet" href="../css/main.css" />
+	<script src="../js/libs/lodash.js"></script>
+	<script type="module" defer src="../js/index.js"></script>
+
+	<body>
+		<div class="main">
+			<div class="classroom-panel">
+				<table id="classroom-table">
+					<!-- El contenido de la tabla se genera dinámicamente	 -->
+				</table>
+			</div>
+			<div class="control-panel">
+				
+				<div class="control-slider">
+					<span> Rows </span>
+					<div
+						class="range-slider"
+						style="
+							--min: 0;
+							--max: 10;
+							--step: 1;
+							--value: 4;
+							--text-value: '4';
+						"
+					>
+						<input
+							id="slider-rows"
+							type="range"
+							min="0"
+							max="10"
+							step="1"
+							value="4"
+						/>
+						<output></output>
+						<div class="range-slider__progress"></div>
+					</div>
+				</div>
+				<div class="control-slider">
+					<span> Columns </span>
+					<div
+						class="range-slider"
+						style="
+							--min: 0;
+							--max: 10;
+							--step: 1;
+							--value: 4;
+							--text-value: '4';
+						"
+					>
+						<input
+							id="slider-cols"
+							type="range"
+							min="0"
+							max="10"
+							step="1"
+							value="4"
+							oninput="this.parentNode.style.setProperty('--value',this.value); this.parentNode.style.setProperty('--text-value', JSON.stringify(this.value))"
+						/>
+						<output></output>
+						<div class="range-slider__progress"></div>
+					</div>
+				</div>
+				<div class="control-slider">
+					<span> Infected </span>
+					<div
+						class="range-slider"
+						style="
+							--min: 1;
+							--max: 100;
+							--step: 1;
+							--value: 1;
+							--text-value: '0';
+						"
+					>
+						<input
+							id="slider-infected"
+							type="range"
+							min="1"
+							max="100"
+							step="1"
+							value="1"
+							oninput="this.parentNode.style.setProperty('--value',this.value); this.parentNode.style.setProperty('--text-value', JSON.stringify(this.value))"
+						/>
+						<output></output>
+						<div class="range-slider__progress"></div>
+					</div>
+				</div>
+				<div class="control-slider">
+					<span> Speed </span>
+					<div
+						class="range-slider"
+						style="
+							--min: 0;
+							--max: 10;
+							--step: 1;
+							--value: 4;
+							--text-value: '4';
+						"
+					>
+						<input
+							id="slider-speed"
+							type="range"
+							min="0"
+							max="10"
+							step="1"
+							value="4"
+							oninput="this.parentNode.style.setProperty('--value',this.value); this.parentNode.style.setProperty('--text-value', JSON.stringify(this.value))"
+						/>
+						<output></output>
+						<div class="range-slider__progress"></div>
+					</div>
+				</div>
+
+				<div>
+					<button id="btn-create-classroom">Create classroom</button>
+				</div>
+				<p></p>
+
+
+				<div>
+					<button id="btn-next-day">Next day</button>
+					<button id="btn-play-pause">Play</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="tvesModal" class="modalContainer">
+			<div class="modal-content">
+				<span class="close">×</span>
+				<h2 id="m-student-name">l</h2>
+				<div id="m-student-info">
+					<!-- Contenido dinámico -->
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
