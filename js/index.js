@@ -128,6 +128,8 @@ function main() {
 	const DEFAULT_ROWS = 5;
 	const DEFAULT_COLS = 5;
 
+    var classroomTable = document.getElementById(TABLE_ID);
+
     var sliderRows = document.getElementById("slider-rows");
     var sliderCols = document.getElementById("slider-cols");
     var sliderInfected = document.getElementById("slider-infected");
@@ -142,6 +144,8 @@ function main() {
         const rows = sliderRows.value;
         const cols = sliderCols.value;
         const infected = sliderInfected.value;
+
+        classroomTable.innerHTML = "";
 
         console.log("rows", rows, "cols", cols, "infected", infected);
         console.log("debuggg");
